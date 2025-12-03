@@ -177,16 +177,18 @@ app.post('/login', async (req, res) => {
     // Store session data
     req.session.user = {
       id: user.user_id,
-      email: user.email,
+      username: user.email,
       role: user.role,
       first_name: user.first_name,
       last_name: user.last_name,
     };
 
-    console.log('✅ Login successful:', email);
+    console.log('✅ Login successful:', user.email);
     req.session.save((err) => {
       if (err) console.error('❌ Session save error:', err);
-      else console.log('💾 Session saved for:', email);
+     
+      else console.log('💾 Session saved for:', user.email);
+     
       res.redirect('/dashboard');
     });
   } catch (err) {
@@ -205,35 +207,28 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  // Destructure the form data
   const { first_name, last_name, email, password } = req.body;
 
   try {
-    // Step 1: Check if the user already exists
-    // We check against 'email' or 'username' depending on your DB constraints
-    const userCheck = await pool.query(
-      'SELECT * FROM users WHERE email = $1',
-      [email]
-    );
-
-    // If the array has items, the user exists
+    const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (userCheck.rows.length > 0) {
-      // Handle error (e.g., render the page again with an error message)
       return res.render('register', { message: 'Email already registered' });
     }
 
-    // Step 2: Insert the new user
-    // Note: We use 'email' twice in the values array: once for email, once for username
+    // --- CHANGE STARTS HERE ---
+    // Hash the password with a salt round of 10
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const insertQuery = `
       INSERT INTO users (first_name, last_name, email, username, password)
       VALUES ($1, $2, $3, $4, $5)
     `;
-    
-    await pool.query(insertQuery, [first_name, last_name, email, email, password]);
+   
+    // Insert 'hashedPassword' instead of the plain 'password'
+    await pool.query(insertQuery, [first_name, last_name, email, email, hashedPassword]);
+    // --- CHANGE ENDS HERE ---
 
-    // Step 3: Redirect to login or dashboard upon success
     res.redirect('/login');
-
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
@@ -284,20 +279,29 @@ app.get('/dashboard', requireLogin, async (req, res) => {
 
 app.get('/participants', requireLogin, async (req, res) => {
   try {
+    const { search = '' } = req.query;
     let result;
-    console.log(req.session.user.role)
 
     if (req.session.user.role === 'admin') {
       // Managers view all users who are NOT managers (participants)
+      const params = [];
+      let p = 1;
+      let where = [];
 
+      if (search && search.trim() !== '') {
+        where.push(`(first_name ILIKE $${p} OR last_name ILIKE $${p} OR email ILIKE $${p})`);
+        params.push(`%${search.trim()}%`);
+        p++;
+      }
 
-      result = await pool.query(`
+      const sql = `
         SELECT user_id, first_name, last_name, email, phone, school_or_employer, field_of_interest, date_of_birth
         FROM users
+        ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
         ORDER BY last_name ASC
+      `;
+      result = await pool.query(sql, params);
 
-
-      `);
     } else {
       // Regular users view themselves
       result = await pool.query(`
@@ -309,17 +313,17 @@ app.get('/participants', requireLogin, async (req, res) => {
 
     // Mapping fields to match EJS expectations
     const participants = result.rows.map(u => ({
-        user_id: u.user_id,
-        first_name: u.first_name,
-        last_name: u.last_name,
-        email: u.email,
-        phone: u.phone,
-        school_or_employer: u.school_or_employer,
-        field_of_interest: u.field_of_interest,
-        date_of_birth: u.date_of_birth
+      user_id: u.user_id,
+      first_name: u.first_name,
+      last_name: u.last_name,
+      email: u.email,
+      phone: u.phone,
+      school_or_employer: u.school_or_employer,
+      field_of_interest: u.field_of_interest,
+      date_of_birth: u.date_of_birth
     }));
 
-    res.render('participants', { participants });
+    res.render('participants', { participants, filters: { search } });
   } catch (err) {
     console.error('❌ Error fetching participants:', err.message);
     res.status(500).send('Error loading participants page.');
@@ -603,3 +607,4 @@ app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
+
