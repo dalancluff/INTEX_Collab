@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Ella Rises</title>
 
-  <!-- Google Fonts (must match style.css setup) -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -116,9 +115,10 @@
       font-family: 'Nunito Sans', sans-serif;
     }
 
-    /* Styles for text and password input fields */
+    /* Styles for text, password, AND EMAIL input fields */
     input[type="text"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="email"] { /* <-- ADDED input[type="email"] to the selector */
       width: 100%;                         /* Full width of container */
       padding: 0.8rem 1rem;                /* Internal spacing (top/bottom, left/right) */
       margin-bottom: 1.2rem;               /* Space below each input field */
@@ -209,9 +209,6 @@
   <h2>Welcome</h2>
   <p>Please log in to continue your journey with Ella Rises.</p>
 
-  <!-- Error message would display here if passed from server -->
-  <!-- <div class="alert">Error message here</div> -->
-
   <form action="/login" method="POST">
     <label for="email">Email</label>
     <input type="email" id="email" name="email" required autofocus>
@@ -229,4 +226,3 @@
 
 </body>
 </html>
-
