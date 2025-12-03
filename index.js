@@ -198,6 +198,48 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Registering view
+app.get('/register', (req, res) => {
+  if (req.session.user) return res.redirect('/dashboard');
+  res.render('register', { error_message: null, success_message: null });
+});
+
+app.post('/register', async (req, res) => {
+  // Destructure the form data
+  const { first_name, last_name, email, password } = req.body;
+
+  try {
+    // Step 1: Check if the user already exists
+    // We check against 'email' or 'username' depending on your DB constraints
+    const userCheck = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
+    // If the array has items, the user exists
+    if (userCheck.rows.length > 0) {
+      // Handle error (e.g., render the page again with an error message)
+      return res.render('register', { message: 'Email already registered' });
+    }
+
+    // Step 2: Insert the new user
+    // Note: We use 'email' twice in the values array: once for email, once for username
+    const insertQuery = `
+      INSERT INTO users (first_name, last_name, email, username, password)
+      VALUES ($1, $2, $3, $4, $5)
+    `;
+    
+    await pool.query(insertQuery, [first_name, last_name, email, email, password]);
+
+    // Step 3: Redirect to login or dashboard upon success
+    res.redirect('/login');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 // ------------------- LOGOUT -------------------
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => {
