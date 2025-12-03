@@ -87,6 +87,36 @@
       color: var(--clr-pink-dark);
       margin-bottom: 1.5rem;
     }
+    
+    .filter-container {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .filter-container input[type="text"],
+    .filter-container input[type="date"],
+    .filter-container select {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+    
+    .filter-container input[type="text"] {
+      width: 260px;
+    }
+    
+    .filter-container input[type="date"] {
+      width: 160px;
+    }
+    
+    .filter-container select {
+      width: 140px;
+    }
+    
     table {
       width: 100%;
       border-collapse: collapse;
@@ -144,9 +174,36 @@
   <div class="container">
     <h1>Post-Event Surveys</h1>
     
+    <form method="GET" action="/surveys" class="filter-container">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Search by name, event, status, comments…" 
+        value="<%= typeof search !== 'undefined' ? search : '' %>"
+      >
+      
+      <input 
+        type="date" 
+        name="date" 
+        value="<%= typeof date !== 'undefined' ? date : '' %>"
+      >
+      
+      <select name="satisfaction">
+        <option value="">All Satisfaction</option>
+        <option value="1" <%= typeof satisfaction !== 'undefined' && satisfaction === '1' ? 'selected' : '' %>>1/5</option>
+        <option value="2" <%= typeof satisfaction !== 'undefined' && satisfaction === '2' ? 'selected' : '' %>>2/5</option>
+        <option value="3" <%= typeof satisfaction !== 'undefined' && satisfaction === '3' ? 'selected' : '' %>>3/5</option>
+        <option value="4" <%= typeof satisfaction !== 'undefined' && satisfaction === '4' ? 'selected' : '' %>>4/5</option>
+        <option value="5" <%= typeof satisfaction !== 'undefined' && satisfaction === '5' ? 'selected' : '' %>>5/5</option>
+        <option value="N/A" <%= typeof satisfaction !== 'undefined' && satisfaction === 'N/A' ? 'selected' : '' %>>N/A</option>
+      </select>
+      
+      <button type="submit" class="btn">Filter</button>
+    </form>
+
     <% 
         // FIX: Changed check to 'admin' as requested.
-        const isAdmin = currentUser && currentUser.role === 'admin'; 
+        const isAdmin = (user && user.role === 'admin') || (currentUser && currentUser.role === 'admin'); 
     %>
     
     <% if (isAdmin) { %>
@@ -170,6 +227,9 @@
                 <th>Status</th>
                 <th>Satisfaction</th>
                 <th>Comments</th>
+                <% if (isAdmin) { %>
+                    <th>Actions</th>
+                <% } %>
             </tr>
         </thead>
         <tbody>
@@ -192,6 +252,17 @@
                         <td><%= r.survey_satisfaction ? r.survey_satisfaction + '/5' : 'N/A' %></td>
                         
                         <td><%= r.survey_comments || 'No comment provided.' %></td>
+                        
+                        <% if ((user && user.role === 'admin') || (currentUser && currentUser.role === 'admin')) { %>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <a href="/edit-survey/<%= r.registration_id %>" class="btn" style="background: var(--clr-blue-muted); padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</a>
+                                    <form method="POST" action="/delete-survey/<%= r.registration_id %>" style="display: inline; margin: 0;">
+                                        <button type="submit" class="btn" style="background: var(--clr-pink-dark); padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="return confirm('Are you sure you want to delete this survey?')">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        <% } %>
                     </tr>
                 <% }) %>
             <% } else { %>
