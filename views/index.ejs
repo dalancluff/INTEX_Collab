@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ella Rises - Inviting young women to pursue higher education and embrace their heritage through culturally rooted programs and educational experiences.">
+  <title>Ella Rises | Empowering Young Women Through Education and Heritage</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==================== CSS Variables - Ella Rises Brand Colors ==================== */
+    :root {
+      --clr-peach-light: #F9F5EA;
+      --clr-pink-soft: #FFD8D1;
+      --clr-pink: #F9AFB1;
+      --clr-pink-dark: #CE325B;
+      --clr-sage: #9AB59D;
+      --clr-charcoal: #3A3F3B;
+      --clr-coral: #F4B092;
+      --clr-blue-muted: #99B7C6;
+      --clr-purple: #978EC4;
+      --clr-white: #ffffff;
+    }
+
+    /* ==================== Global Styles ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      color: var(--clr-charcoal);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ==================== Navigation Bar ==================== */
+    .navbar {
+      background: var(--clr-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--clr-pink-dark);
+    }
+
+    .btn-login-nav {
+      background: linear-gradient(135deg, var(--clr-coral), var(--clr-pink-dark));
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-login-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(206, 50, 91, 0.3);
+      color: white;
+    }
+
+    /* ==================== Hero Section ==================== */
+    .hero {
+      background: linear-gradient(135deg, var(--clr-pink-soft) 0%, var(--clr-peach-light) 100%);
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: var(--clr-pink);
+      opacity: 0.1;
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: var(--clr-sage);
+      opacity: 0.1;
+      border-radius: 50%;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--clr-charcoal);
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--clr-coral), var(--clr-pink-dark));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(206, 50, 91, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--clr-pink-dark);
+      border: 2px solid var(--clr-pink-dark);
+    }
+
+    .btn-secondary:hover {
+      background: var(--clr-pink-dark);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(206, 50, 91, 0.3);
+    }
+
+    /* ==================== Mission Section ==================== */
+    .mission {
+      padding: 5rem 2rem;
+      background: white;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: var(--clr-charcoal);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+
+    /* ==================== Programs Section ==================== */
+    .programs {
+      padding: 5rem 2rem;
+      background: var(--clr-peach-light);
+    }
+
+    .programs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .program-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+
+    .program-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .program-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .program-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1rem;
+    }
+
+    .program-card p {
+      color: var(--clr-charcoal);
+      line-height: 1.8;
+    }
+
+    /* ==================== Impact Section ==================== */
+    .impact {
+      padding: 5rem 2rem;
+      background: white;
+      text-align: center;
+    }
+
+    .impact-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 3rem auto 0;
+    }
+
+    .stat {
+      padding: 2rem;
+    }
+
+    .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+    }
+
+    /* ==================== CTA Section ==================== */
+    .cta {
+      padding: 5rem 2rem;
+      background: linear-gradient(135deg, var(--clr-sage) 0%, var(--clr-blue-muted) 100%);
+      text-align: center;
+      color: white;
+    }
+
+    .cta h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+
+    .cta p {
+      font-size: 1.3rem;
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-cta {
+      background: white;
+      color: var(--clr-sage);
+      font-size: 1.2rem;
+      padding: 1.2rem 3rem;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ==================== Footer ==================== */
+    .footer {
+      background: var(--clr-charcoal);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      text-align: left;
+    }
+
+    .footer-section h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink);
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #ddd;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section a:hover {
+      color: var(--clr-pink);
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      color: #aaa;
+    }
+
+    /* ==================== Responsive Design ==================== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .nav-links {
+        display: none; /* Simple mobile - you can add hamburger menu later */
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    /* ==================== Accessibility ==================== */
+    .skip-to-main {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .skip-to-main:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip to main content link for screen readers (ADA compliance) -->
+  <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="/" class="logo" aria-label="Ella Rises Home">Ella Rises</a>
+    <ul class="nav-links">
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#donate">Donate</a></li>
+      <li><a href="/login" class="btn-login-nav">Staff Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+      <div class="hero-content">
+        <h1>Empowering Young Women Through Education and Heritage</h1>
+        <p>
+          Inviting young women to pursue higher education and embrace their heritage 
+          by providing culturally rooted programs and educational experiences.
+        </p>
+        <div class="hero-buttons">
+          <a href="#donate" class="btn btn-primary">Donate Now</a>
+          <a href="#programs" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="mission">
+      <h2 class="section-title">Our Mission</h2>
+      <p class="section-subtitle">
+        Ella Rises is dedicated to creating pathways for young women to achieve their 
+        educational dreams while celebrating and preserving their cultural heritage. 
+        Through innovative programs in mariachi and STEAM education, we provide the 
+        support, mentorship, and resources needed to help every participant rise to 
+        their full potential.
+      </p>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="programs">
+      <div class="programs-container">
+        <h2 class="section-title" style="text-align: center;">Our Programs</h2>
+        <p class="section-subtitle" style="text-align: center;">
+          Comprehensive programs designed to inspire, educate, and empower
+        </p>
+        
+        <div class="programs-grid">
+          <!-- Mariachi Program -->
+          <div class="program-card">
+            <div class="program-icon" role="img" aria-label="Music">🎵</div>
+            <h3>Mariachi Education</h3>
+            <p>
+              Connecting young women with their cultural roots through traditional 
+              mariachi music education, performance opportunities, and community engagement.
+            </p>
+          </div>
+
+          <!-- STEAM Program -->
+          <div class="program-card">
+            <div class="program-icon" role="img" aria-label="Science">🔬</div>
+            <h3>STEAM Programs</h3>
+            <p>
+              Hands-on learning in Science, Technology, Engineering, Arts, and Mathematics 
+              to prepare students for future careers and higher education opportunities.
+            </p>
+          </div>
+
+          <!-- Mentorship Program -->
+          <div class="program-card">
+            <div class="program-icon" role="img" aria-label="Mentorship">🌟</div>
+            <h3>Mentorship & Support</h3>
+            <p>
+              One-on-one mentorship, college prep workshops, and ongoing support to help 
+              participants navigate their educational journey with confidence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact">
+      <h2 class="section-title">Our Impact</h2>
+      <p class="section-subtitle">
+        Making a real difference in the lives of young women and their communities
+      </p>
+      
+      <div class="impact-stats">
+        <div class="stat">
+          <div class="stat-number">500+</div>
+          <div class="stat-label">Participants Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">College Enrollment Rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Community Events</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Scholarships Awarded</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="donate" class="cta">
+      <h2>Join Us in Making a Difference</h2>
+      <p>
+        Your support helps us continue empowering young women to achieve their dreams. 
+        Every donation makes a lasting impact on a student's educational journey.
+      </p>
+      <a href="https://givebutter.com/EllaRises" class="btn btn-cta">Support Our Mission</a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Ella Rises</h3>
+        <p>Empowering young women through education and cultural heritage.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="#mission">Mission</a>
+        <a href="#programs">Programs</a>
+        <a href="#impact">Impact</a>
+        <a href="/login">Staff Login</a>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <p>Email: info@ellarises.org</p>
+        <p>Phone: (555) 123-4567</p>
+        <p>Location: Your City, State</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Get Involved</h3>
+        <a href="#donate">Donate</a>
+        <a href="#volunteer">Volunteer</a>
+        <a href="#events">Upcoming Events</a>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 Ella Rises. All rights reserved. | Empowering futures, one student at a time.</p>
+    </div>
+  </footer>
+</body>
+</html>

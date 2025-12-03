@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --clr-pink-dark: #ce325b;
+      --clr-pink: #f9afb1;
+      --clr-peach-light: #f9f5ea;
+      --clr-coral: #f4b092;
+      --clr-gray: #3a3f3b;
+      --clr-white: #ffffff;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-peach-light);
+      color: var(--clr-gray);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .register-container {
+      background: var(--clr-white);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.3rem;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--clr-pink), var(--clr-pink-dark));
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, var(--clr-pink-dark), var(--clr-coral));
+      transform: translateY(-2px);
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-note a {
+      color: var(--clr-pink-dark);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .error {
+      color: #d9534f;
+    }
+
+    .success {
+      color: #5cb85c;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h1>Create Account</h1>
+
+    <% if (error_message) { %>
+      <div class="message error"><%= error_message %></div>
+    <% } %>
+
+    <% if (success_message) { %>
+      <div class="message success"><%= success_message %></div>
+    <% } %>
+
+    <form action="/register" method="POST">
+      <label for="first_name">First Name</label>
+      <input type="text" id="first_name" name="first_name" required>
+
+      <label for="last_name">Last Name</label>
+      <input type="text" id="last_name" name="last_name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <div class="footer-note">
+      Already have an account? <a href="/login">Log in</a>
+    </div>
+  </div>
+</body>
+</html>

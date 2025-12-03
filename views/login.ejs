@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Ella Rises</title>
+
+  <!-- Google Fonts (must match style.css setup) -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS Custom Properties - Ella Rises Brand Colors */
+    /* These variables allow you to reuse colors throughout the stylesheet */
+    :root {
+      /* Brand color palette from style guide */
+      --clr-peach-light: #F9F5EA;    /* Cream/beige background */
+      --clr-pink-soft: #FFD8D1;      /* Very soft pink */
+      --clr-pink: #F9AFB1;           /* Primary pink for accents */
+      --clr-pink-dark: #CE325B;      /* Deep rose for emphasis */
+      --clr-sage: #9AB59D;           /* Sage green accent */
+      --clr-charcoal: #3A3F3B;       /* Dark text and contrast */
+      --clr-coral: #F4B092;          /* Coral/peach for buttons */
+      --clr-blue-muted: #99B7C6;     /* Soft blue accent */
+      --clr-purple: #978EC4;         /* Purple accent */
+      
+      /* Functional color assignments */
+      --clr-panel: #ffffff;          /* White background for cards/panels */
+      --clr-text-primary: #3A3F3B;   /* Dark charcoal for main text */
+      --clr-text-secondary: #666666; /* Medium gray for secondary text */
+      --clr-gray-light: #dddddd;     /* Light gray for borders */
+      --clr-muted: #999999;          /* Muted gray for subtle text */
+    }
+
+    /* Apply border-box sizing to all elements for easier layout calculations */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh; /* Ensure body takes up at least full viewport height */
+      
+      /* Use flexbox to center the login card both horizontally and vertically */
+      display: flex;
+      align-items: center;    /* Centers vertically */
+      justify-content: center; /* Centers horizontally */
+      
+      /* Create the split background effect using a linear gradient */
+      /* This creates a clean horizontal split: soft pink top half, white bottom half */
+      background: linear-gradient(
+        to bottom,           /* Gradient flows from top to bottom */
+        #FFD8D1 0%,         /* Start with soft pink at the very top */
+        #FFD8D1 50%,        /* Keep soft pink until the middle (50%) */
+        #ffffff 50%,        /* Switch to white at the middle */
+        #ffffff 100%        /* Continue white to the bottom */
+      );
+    }
+
+    /* Styles for the white card container that holds the login form */
+    .login-container {
+      background: var(--clr-panel);  /* White background using CSS variable */
+      border-radius: 20px;           /* Rounded corners for modern look */
+      
+      /* Multiple shadows for depth: coral pink glow + subtle gray shadow */
+      box-shadow: 0 0 0 3px rgba(249, 175, 177, 0.25),  /* Pink outline glow */
+                  0 10px 25px rgba(0, 0, 0, 0.1);        /* Soft drop shadow */
+      
+      padding: 3rem 2.5rem;  /* Internal spacing (top/bottom: 3rem, left/right: 2.5rem) */
+      width: 100%;           /* Take full width of parent */
+      max-width: 420px;      /* But never exceed 420px */
+      text-align: center;    /* Center all text inside */
+      
+      /* Fade-in animation on page load */
+      animation: fadeIn 0.6s ease-in-out;
+      
+      position: relative; /* Establishes positioning context */
+      z-index: 1;        /* Ensures card appears above background */
+    }
+
+    /* Keyframe animation for smooth fade-in effect when page loads */
+    @keyframes fadeIn {
+      from { 
+        opacity: 0;                  /* Start invisible */
+        transform: translateY(-20px); /* Start 20px higher */
+      }
+      to { 
+        opacity: 1;                  /* End fully visible */
+        transform: translateY(0);    /* End at normal position */
+      }
+    }
+
+    /* Styles for the "Welcome Back" heading */
+    .login-container h2 {
+      font-family: 'Montserrat', sans-serif; /* Bold, modern font for headings */
+      font-weight: 700;                      /* Extra bold weight */
+      font-size: 1.8rem;                     /* Large heading size */
+      color: var(--clr-pink-dark);           /* Dark pink color */
+      margin-bottom: 0.5rem;                 /* Small space below heading */
+    }
+
+    /* Styles for the subtitle text below the heading */
+    .login-container p {
+      font-family: 'Nunito Sans', sans-serif; /* Softer, more readable font */
+      color: var(--clr-text-secondary);       /* Medium gray for less emphasis */
+      margin-bottom: 2rem;                    /* Larger space before form begins */
+      font-size: 0.95rem;                     /* Slightly smaller than body text */
+    }
+
+    /* Styles for form labels (Username, Password) */
+    label {
+      display: block;                      /* Takes full width, forces line break */
+      font-weight: 600;                    /* Semi-bold for emphasis */
+      color: var(--clr-text-primary);      /* Dark gray for readability */
+      text-align: left;                    /* Left-align labels above inputs */
+      margin-bottom: 0.3rem;               /* Small space between label and input */
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    /* Styles for text and password input fields */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;                         /* Full width of container */
+      padding: 0.8rem 1rem;                /* Internal spacing (top/bottom, left/right) */
+      margin-bottom: 1.2rem;               /* Space below each input field */
+      border-radius: 10px;                 /* Rounded corners */
+      border: 1px solid var(--clr-gray-light); /* Light gray border */
+      font-size: 1rem;                     /* Standard text size */
+      font-family: 'Nunito Sans', sans-serif;
+      
+      /* Smooth animations when border or shadow changes */
+      transition: border 0.2s ease, box-shadow 0.2s ease;
+      
+      /* Soft pink shadow/outline visible even before user clicks */
+      /* This gives inputs the Ella Rises branded look */
+      box-shadow: 0 0 0 3px rgba(249, 175, 177, 0.25);
+    }
+
+    /* Styles when user clicks into an input field (focused state) */
+    input:focus {
+      outline: none;                     /* Remove default browser outline */
+      border-color: var(--clr-pink);     /* Change border to pink */
+      
+      /* Slightly stronger pink shadow when focused for visual feedback */
+      box-shadow: 0 0 0 4px rgba(249, 175, 177, 0.35);
+    }
+
+    /* Styles for the login button */
+    .btn-login {
+      width: 100%;      /* Full width of container */
+      
+      /* Gradient background from coral to deep rose (left to right diagonal) */
+      background: linear-gradient(135deg, var(--clr-coral) 0%, var(--clr-pink-dark) 100%);
+      
+      border: none;     /* Remove default button border */
+      color: #fff;      /* White text color */
+      padding: 0.9rem;  /* Internal spacing for comfortable click area */
+      font-weight: 600; /* Semi-bold text */
+      border-radius: 999px; /* Fully rounded pill shape */
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;  /* Shows hand cursor on hover */
+      
+      /* Smooth animations for hover effects */
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    /* Hover effect for the login button - lifts button up slightly */
+    .btn-login:hover {
+      transform: translateY(-2px);  /* Move button up 2 pixels */
+      
+      /* Add shadow below button to create "lifted" appearance */
+      box-shadow: 0 6px 16px rgba(206, 50, 91, 0.3);
+    }
+
+    /* Styles for error messages displayed above the form */
+    .alert {
+      background: #FFD8D1;                       /* Soft pink background */
+      border-left: 4px solid var(--clr-pink-dark); /* Deep rose left border accent */
+      padding: 0.8rem;                       /* Internal spacing */
+      margin-bottom: 1rem;                   /* Space below alert */
+      color: var(--clr-pink-dark);           /* Deep rose text */
+      font-size: 0.9rem;                     /* Slightly smaller text */
+      border-radius: 8px;                    /* Rounded corners */
+    }
+
+    /* Styles for the "Don't have an account?" footer text */
+    .footer-note {
+      margin-top: 1.5rem;            /* Space above footer */
+      font-size: 0.85rem;            /* Smaller text size */
+      color: var(--clr-muted);       /* Muted gray color */
+    }
+
+    /* Styles for the "Sign up" link within the footer */
+    .footer-note a {
+      color: var(--clr-pink-dark);   /* Dark pink for links */
+      text-decoration: none;         /* Remove underline by default */
+      font-weight: 600;              /* Semi-bold for emphasis */
+    }
+
+    /* Hover effect for the "Sign up" link - adds underline */
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Welcome</h2>
+  <p>Please log in to continue your journey with Ella Rises.</p>
+
+  <!-- Error message would display here if passed from server -->
+  <!-- <div class="alert">Error message here</div> -->
+
+  <form action="/login" method="POST">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required autofocus>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit" class="btn-login">Login</button>
+  </form>
+
+  <div class="footer-note">
+    Don't have an account? <a href="/register">Sign up</a>
+  </div>
+</div>
+
+</body>
+</html>
+
