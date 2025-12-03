@@ -521,21 +521,21 @@
     <div class="welcome-section">
       <h1>Welcome to the Dashboard! 👋</h1>
       <span class="role-badge">
-  <% if (user.role === 'manager') { %>
-    👑 Manager - Full Access
+  <% if (user.role === 'admin') { %>
+    👑 Admin - Full Access
   <% } else { %>
     👤 User - View Only
   <% } %>
 </span>
-<% if (user.role === 'manager') { %>
-  <a href="/manage-users" class="btn-manage-users">Manage Users</a>
+<% if (user.role === 'admin') { %>
+  <a href="/participants" class="btn-manage-users">Manage Users</a>
 <% } %>
 
 
 
 
 
-<% if (user.role === 'manager') { %>
+<% if (user.role === 'admin') { %>
   <p style="margin-top: 1rem;">You have full permissions to add, edit, and manage all program data.</p>
   <% } else { %>
   <p style="margin-top: 1rem;">You can view your own information and progress within Ella Rises.</p>
@@ -578,7 +578,7 @@
   </div>
   <div class="action-overlay-light">
     <h3>Participants</h3>
-    <% if (user.role === 'manager') { %>
+    <% if (user.role === 'admin') { %>
       <p>Browse and manage all participants</p>
       <span class="action-badge manager">Manage & View</span>
     <% } else { %>
@@ -596,7 +596,7 @@
   </div>
   <div class="action-overlay-light">
     <h3>Events</h3>
-    <% if (user.role === 'manager') { %>
+    <% if (user.role === 'admin') { %>
       <p>Manage and view all upcoming and past events</p>
       <span class="action-badge manager">Manage & View</span>
     <% } else { %>
@@ -614,7 +614,7 @@
   </div>
   <div class="action-overlay-light">
     <h3>Donations</h3>
-    <% if (user.role === 'manager') { %>
+    <% if (user.role === 'admin') { %>
       <p>Track and manage all donor contributions</p>
       <span class="action-badge manager">Manage & View</span>
     <% } else { %>
