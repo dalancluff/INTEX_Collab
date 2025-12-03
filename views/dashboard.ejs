@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Ella Rises</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    /* ==================== CSS Variables - Ella Rises Brand Colors ==================== */
+    :root {
+      --clr-peach-light: #F9F5EA;
+      --clr-pink-soft: #FFD8D1;
+      --clr-pink: #F9AFB1;
+      --clr-pink-dark: #CE325B;
+      --clr-sage: #9AB59D;
+      --clr-charcoal: #3A3F3B;
+      --clr-coral: #F4B092;
+      --clr-blue-muted: #99B7C6;
+      --clr-purple: #978EC4;
+      --clr-white: #ffffff;
+      --clr-gray-light: #f5f5f5;
+      --clr-border: #e0e0e0;
+    }
+    /* ==================== Global Styles ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-gray-light);
+      color: var(--clr-charcoal);
+      line-height: 1.6;
+    }
+    /* ==================== Navigation Bar ==================== */
+    .navbar {
+      background: var(--clr-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--clr-pink-dark);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .user-badge {
+      background: linear-gradient(135deg, var(--clr-coral), var(--clr-pink-dark));
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .btn-logout {
+      background: var(--clr-charcoal);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .btn-logout:hover {
+      background: var(--clr-pink-dark);
+      transform: translateY(-2px);
+    }
+    /* ==================== Main Container ==================== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    /* ==================== Welcome Section ==================== */
+    .welcome-section {
+      background: linear-gradient(135deg, var(--clr-pink-soft) 0%, var(--clr-peach-light) 100%);
+      padding: 3rem;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .welcome-section h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      color: var(--clr-pink-dark);
+      margin-bottom: 0.5rem;
+    }
+    .welcome-section p {
+      font-size: 1.2rem;
+      color: var(--clr-charcoal);
+    }
+    .role-badge {
+      display: inline-block;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 999px;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+/* ======= Manage Users Button ======= */
+.btn-manage-users {
+      display: inline-block;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 999px;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+}
+
+.btn-manage-users:hover {
+  background: linear-gradient(135deg, #CE325B, #F4B092);
+  transform: translateY(-2px);
+}
+
+
+/* ======= PARTICIPANTS IMAGE CARD ======= */
+.participants-card {
+  display: block;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.25); /* light haze overlay */;
+}
+
+.participants-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+/* Keeps the image proportional and centered */
+.image-wrapper {
+  width: 100%;
+  height: 250px;                  /* Fixed frame height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff8f7;            /* subtle light base */
+  opacity: 0.7;
+}
+
+.participants-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;            /* No zooming or cropping */
+  object-position: center;
+  border-radius: 12px;
+}
+
+/* Overlay text on top of image with pastel fade */
+.action-overlay-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 1rem;
+  background: linear-gradient(to top, rgba(255,216,209,0.95), rgba(249,245,234,0.4));
+  color: #292b29;                 /* Charcoal text */
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.action-overlay-light h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #CE325B;
+}
+
+.action-overlay-light p {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: #000000; /* makes the description text much more readable */
+  opacity: 2;
+}
+
+
+/* ======= DONATIONS IMAGE CARD ======= */
+.donations-card {
+  display: block;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #F4B092 0%, #F9F5EA 100%);
+}
+
+.donations-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.donations-card .image-wrapper {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff8f7;
+}
+
+.donations-card .donations-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+}
+
+.donations-card .action-overlay-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 1rem;
+  background: linear-gradient(to top, rgba(255,216,209,0.95), rgba(249,245,234,0.4));
+  color: #3A3F3B;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.donations-card .action-overlay-light h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #CE325B;
+}
+
+.donations-card .action-overlay-light p {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  opacity: 0.85;
+}
+
+/* ======= EVENTS IMAGE CARD ======= */
+.events-card {
+  display: block;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #FFD8D1 0%, #F9F5EA 100%);
+}
+
+.events-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+/* Keeps image consistent with other cards */
+.events-card .image-wrapper {
+  width: 100%;
+  height: 250px;               /* same fixed height as other images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff8f7;         /* soft light base */
+}
+
+/* Properly scales image within frame */
+.events-card .events-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           /* keeps proportions while filling the box */
+  object-position: center;     /* centers image */
+  border-radius: 12px;
+}
+
+/* Overlay to match other cards */
+.events-card .action-overlay-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.2rem 1rem;
+  background: linear-gradient(to top, rgba(255,216,209,0.95), rgba(249,245,234,0.4)); /* same as participants */
+  color: #3A3F3B;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.events-card .action-overlay-light h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #CE325B;
+}
+
+.events-card .action-overlay-light p {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+
+/* ======= SURVEYS IMAGE CARD ======= */
+.survey-image {
+  width: 100%;
+  height: 250px;               /* consistent height with other cards */
+  object-fit: cover;           /* crop to fill but maintain proportions */
+  object-position: center;     /* center focus */
+  border-radius: 12px;
+}
+
+/* ==================== Stats Cards ==================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: var(--clr-white);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-left: 5px solid var(--clr-pink);
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+    .stat-card.participants { border-left-color: var(--clr-pink); }
+    .stat-card.users { border-left-color: var(--clr-sage); }
+    .stat-card.admins { border-left-color: var(--clr-blue-muted); }
+    .stat-card.donations { border-left-color: var(--clr-coral); }
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--clr-charcoal);
+      margin-bottom: 0.3rem;
+    }
+    .stat-label {
+      font-size: 1rem;
+      color: #666;
+      font-weight: 600;
+    }
+    /* ==================== Quick Actions ==================== */
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .action-card {
+      background: var(--clr-white);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      text-decoration: none;
+      color: var(--clr-charcoal);
+    }
+    .action-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+    .action-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .action-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.3rem;
+      color: var(--clr-pink-dark);
+      margin-bottom: 0.5rem;
+    }
+    .action-card p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .action-badge {
+      display: inline-block;
+      background: var(--clr-peach-light);
+      color: var(--clr-pink-dark);
+      padding: 0.3rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .action-badge.manager {
+      background: var(--clr-pink-dark);
+      color: white;
+    }
+    .action-badge.view {
+      background: var(--clr-sage);
+      color: white;
+    }
+    /* ==================== Charts Section ==================== */
+    .charts-section {
+      margin-top: 3rem;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    }
+    .chart-card {
+      background: var(--clr-white);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    .chart-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+    }
+    /* ==================== Responsive Design ==================== */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .nav-links {
+        flex-direction: column;
+        text-align: center;
+      }
+      .welcome-section h1 {
+        font-size: 2rem;
+      }
+      .stats-grid,
+      .actions-grid {
+        grid-template-columns: 1fr;
+      }
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="/" class="logo">Ella Rises</a>
+      <ul class="nav-links">
+      </ul>
+    </div>
+    <div class="nav-right">
+      <div class="user-info">
+        <span class="user-badge"><%= user.first_name %> <%= user.last_name %></span>
+      </div>
+      <a href="/logout" class="btn-logout">Logout</a>
+    </div>
+  </nav>
+  
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1>Welcome to the Dashboard! 👋</h1>
+      <span class="role-badge">
+  <% if (user.role === 'manager') { %>
+    👑 Manager - Full Access
+  <% } else { %>
+    👤 User - View Only
+  <% } %>
+</span>
+<% if (user.role === 'manager') { %>
+  <a href="/manage-users" class="btn-manage-users">Manage Users</a>
+<% } %>
+
+
+
+
+
+<% if (user.role === 'manager') { %>
+  <p style="margin-top: 1rem;">You have full permissions to add, edit, and manage all program data.</p>
+  <% } else { %>
+  <p style="margin-top: 1rem;">You can view your own information and progress within Ella Rises.</p>
+  <% } %>
+    </div>
+
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="stat-card participants">
+        <div class="stat-icon">👥</div>
+        <div class="stat-number"><%= stats.totalParticipants.toLocaleString() %></div>
+        <div class="stat-label">Total Participants</div>
+      </div>
+      <div class="stat-card users">
+        <div class="stat-icon">👤</div>
+        <div class="stat-number"><%= stats.regularUsers.toLocaleString() %></div>
+        <div class="stat-label">Regular Users</div>
+      </div>
+      <div class="stat-card admins">
+        <div class="stat-icon">⚙️</div>
+        <div class="stat-number"><%= stats.admins.toLocaleString() %></div>
+        <div class="stat-label">Administrators</div>
+      </div>
+      <div class="stat-card donations">
+        <div class="stat-icon">💝</div>
+        <div class="stat-number">$<%= stats.totalDonations.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) %></div>
+        <div class="stat-label">Total Donations</div>
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+      
+      <!-- Participants -->
+  <a href="/participants" class="action-card participants-card">
+  <div class="image-wrapper">
+    <img src="/images/participantspicture.avif" alt="Participants" class="participants-image">
+  </div>
+  <div class="action-overlay-light">
+    <h3>Participants</h3>
+    <% if (user.role === 'manager') { %>
+      <p>Browse and manage all participants</p>
+      <span class="action-badge manager">Manage & View</span>
+    <% } else { %>
+      <p>View your participant information only</p>
+      <span class="action-badge view">View Only</span>
+    <% } %>
+  </div>
+</a>
+
+     
+ <!-- Events -->
+<a href="/events" class="action-card events-card">
+  <div class="image-wrapper">
+    <img src="/images/eventspicture.avif" alt="Events" class="events-image">
+  </div>
+  <div class="action-overlay-light">
+    <h3>Events</h3>
+    <% if (user.role === 'manager') { %>
+      <p>Manage and view all upcoming and past events</p>
+      <span class="action-badge manager">Manage & View</span>
+    <% } else { %>
+      <p>View your registered or recommended events</p>
+      <span class="action-badge view">View Only</span>
+    <% } %>
+  </div>
+</a>
+
+      
+<!-- Donations -->
+<a href="/donations" class="action-card donations-card">
+  <div class="image-wrapper">
+    <img src="/images/donationspicture.jpg" alt="Donations" class="donations-image">
+  </div>
+  <div class="action-overlay-light">
+    <h3>Donations</h3>
+    <% if (user.role === 'manager') { %>
+      <p>Track and manage all donor contributions</p>
+      <span class="action-badge manager">Manage & View</span>
+    <% } else { %>
+      <p>View your donation history and totals</p>
+      <span class="action-badge view">View Only</span>
+    <% } %>
+  </div>
+</a>
+
+
+<!-- Organizations -->
+<a href="surveys" class="action-card events-card">
+  <div class="image-wrapper">
+    <img src="/images/surveypicture.avif" alt="Surveys" class="survey-image">
+  </div>
+  <div class="action-overlay-light">
+    <h3>Surveys</h3>
+    <% if (user.role === 'admin') { %>
+      <p>Take a look at participant surveys</p>
+      <span class="action-badge manager">Manage & View</span>
+    <% } else { %>
+      <p>Take a look at participant surveys</p>
+      <span class="action-badge view">View Only</span>
+    <% } %>
+  </div>
+</a>
+
+
+    
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <h2 class="section-title">Program Insights</h2>
+      <div class="charts-grid">
+        
+        <!-- Field of Interest Distribution -->
+        <div class="chart-card">
+          <h3>Field of Interest Distribution</h3>
+          <canvas id="interestChart"></canvas>
+        </div>
+        
+        <!-- Top Schools/Organizations -->
+        <div class="chart-card">
+          <h3>Top Organizations by Participants</h3>
+          <canvas id="organizationChart"></canvas>
+        </div>
+        
+        <!-- Age Distribution -->
+        <div class="chart-card">
+          <h3>Participant Age Distribution</h3>
+          <canvas id="ageChart"></canvas>
+        </div>
+        
+        <!-- Donation Overview -->
+        <div class="chart-card">
+          <h3>Donation Contributors</h3>
+          <canvas id="donationChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chart.js Configuration -->
+  <script>
+    // Field of Interest Pie Chart
+    const interestCtx = document.getElementById('interestChart').getContext('2d');
+    new Chart(interestCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['STEM', 'Arts', 'Both'],
+        datasets: [{
+          data: [496, 470, 206], // Actual counts from data
+          backgroundColor: [
+            '#9AB59D',
+            '#F9AFB1',
+            '#99B7C6'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+    // Top Organizations Bar Chart
+    const orgCtx = document.getElementById('organizationChart').getContext('2d');
+    new Chart(orgCtx, {
+      type: 'bar',
+      data: {
+        labels: ['North Summit High', 'BYU', 'Tech Apprenticeship', 'SLCC', 'Local Library'],
+        datasets: [{
+          label: 'Participants',
+          data: [108, 95, 82, 75, 73],
+          backgroundColor: '#CE325B'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    
+    // Age Distribution Line Chart
+    const ageCtx = document.getElementById('ageChart').getContext('2d');
+    new Chart(ageCtx, {
+      type: 'line',
+      data: {
+        labels: ['14-17', '18-21', '22-25', '26-29', '30+'],
+        datasets: [{
+          label: 'Participants',
+          data: [142, 348, 412, 198, 72],
+          borderColor: '#F4B092',
+          backgroundColor: 'rgba(244, 176, 146, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    
+    // Donation Contributors Doughnut Chart
+    const donationCtx = document.getElementById('donationChart').getContext('2d');
+    new Chart(donationCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['With Donations', 'No Donations'],
+        datasets: [{
+          data: [418, 754], // Users with donations vs without
+          backgroundColor: [
+            '#978EC4',
+            '#e0e0e0'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

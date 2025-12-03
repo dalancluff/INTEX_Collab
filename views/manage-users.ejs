@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Users | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --clr-pink-dark: #ce325b;
+      --clr-pink: #f9afb1;
+      --clr-peach-light: #f9f5ea;
+      --clr-sage: #9ab59d;
+      --clr-coral: #f4b092;
+      --clr-gray: #3a3f3b;
+      --clr-white: #ffffff;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-peach-light);
+      color: var(--clr-gray);
+      margin: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: var(--clr-white);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+
+    .logout-btn {
+      background: var(--clr-pink-dark);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #b22d50;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      background: var(--clr-white);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: var(--clr-pink-dark);
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    .add-user-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--clr-pink), var(--clr-pink-dark));
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(206, 50, 91, 0.25);
+      transition: 0.3s ease;
+    }
+
+    .add-user-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, var(--clr-pink-dark), var(--clr-coral));
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: var(--clr-pink);
+      color: var(--clr-gray);
+      text-align: left;
+      padding: 0.8rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background: #fff5f5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .edit-btn, .delete-btn {
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .edit-btn {
+      background: var(--clr-sage);
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background: #7fa082;
+    }
+
+    .delete-btn {
+      background: var(--clr-coral);
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #e48a6c;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      text-decoration: none;
+      color: var(--clr-pink-dark);
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="/dashboard" class="logo">Ella Rises</a>
+    <form action="/logout" method="get">
+      <button class="logout-btn">Logout</button>
+    </form>
+  </nav>
+
+  <div class="container">
+    <h1>Manage Users</h1>
+    <a href="/add-user" class="add-user-btn">➕ Add New User</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users && users.length) { %>
+          <% users.forEach(u => { %>
+            <tr>
+              <td><%= u.first_name %> <%= u.last_name %></td>
+              <td><%= u.email %></td>
+              <td><%= u.role %></td>
+              <td><%= u.is_active ? 'Active' : 'Inactive' %></td>
+              <td class="actions">
+                <a href="/edit-user/<%= u.user_id %>" class="edit-btn">Edit</a>
+                <form action="/delete-user/<%= u.user_id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                  <button type="submit" class="delete-btn">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="6" style="text-align:center;">No users found.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+  </div>
+</body>
+</html>

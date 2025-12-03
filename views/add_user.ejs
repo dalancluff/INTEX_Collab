@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add User | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    body { background:#F9F5EA; font-family:'Nunito Sans',sans-serif; color:#3A3F3B; }
+    .container {
+      max-width: 600px; margin: 3rem auto; background:white;
+      padding:2rem; border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,.1);
+    }
+    h1 { color:#CE325B; font-family:'Montserrat',sans-serif; }
+    label { display:block; margin-top:1rem; font-weight:600; }
+    input, select {
+      width:100%; padding:.6rem; border:1px solid #ddd;
+      border-radius:10px; margin-top:.3rem;
+    }
+    button {
+      background:linear-gradient(135deg,#F9AFB1,#CE325B);
+      color:white; font-weight:600; border:none;
+      padding:.7rem 1.2rem; border-radius:999px;
+      margin-top:1.5rem; cursor:pointer;
+      transition:background .3s ease;
+    }
+    button:hover { background:linear-gradient(135deg,#CE325B,#F4B092); }
+    a { text-decoration:none; color:#CE325B; font-weight:600; display:block; margin-top:1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New User</h1>
+    <form method="POST" action="/add-user">
+      <label>First Name</label>
+      <input type="text" name="first_name" required>
+
+      <label>Last Name</label>
+      <input type="text" name="last_name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Password</label>
+      <input type="password" name="password" required>
+
+      <label>Role</label>
+      <select name="role" required>
+        <option value="user">User</option>
+        <option value="manager">Manager</option>
+      </select>
+
+      <button type="submit">Add User</button>
+    </form>
+
+    <a href="/manage-users">← Back to Manage Users</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surveys | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"> 
+  <style>
+    /* ==================== BRAND COLORS (Ella Rises) ==================== */
+    :root {
+      --clr-peach-light: #F9F5EA;
+      --clr-pink-soft: #FFD8D1;
+      --clr-pink: #F9AFB1;
+      --clr-pink-dark: #CE325B;
+      --clr-sage: #9AB59D;
+      --clr-charcoal: #3A3F3B;
+      --clr-coral: #F4B092;
+      --clr-blue-muted: #99B7C6;
+      --clr-purple: #978EC4;
+      --clr-white: #ffffff;
+      --clr-gray-light: #f5f5f5;
+      --clr-border: #e0e0e0;
+    }
+
+    /* ==================== GLOBAL STYLES ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-gray-light);
+      color: var(--clr-charcoal);
+      min-height: 100vh;
+    }
+    
+    /* ==================== NAVBAR (IN-PAGE STYLES) ==================== */
+    .navbar {
+      background: var(--clr-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--clr-pink-dark);
+    }
+    /* ==================== END NAVBAR STYLES ==================== */
+
+    /* Styles specific to this page */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: var(--clr-pink-soft);
+      color: var(--clr-pink-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+    tr:hover {
+      background-color: #fafafa;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+  </style>
+</head>
+<body>
+  
+  <!-- FIX: Directly embedding the Navbar -->
+  <nav class="navbar">
+    <a href="/" class="logo">Ella Rises</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/participants">Participants</a></li>
+      <li><a href="/surveys" style="color: var(--clr-pink-dark);">Surveys</a></li>
+      <li><a href="/donations">Donations</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Post-Event Surveys</h1>
+    
+    <% 
+        // FIX: Changed check to 'admin' as requested.
+        const isAdmin = currentUser && currentUser.role === 'admin'; 
+    %>
+    
+    <% if (isAdmin) { %>
+        <p>Viewing all submitted registrations and survey scores.</p>
+    <% } else { %>
+        <p>Your submitted event registrations and attached feedback.</p>
+    <% } %>
+
+    <a href="/survey_new" class="btn" style="background: var(--clr-sage); margin-bottom: 1rem;">+ Submit New Survey/Registration</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Registration ID</th>
+                <!-- FIX 1: Display Participant Name column only for admin -->
+                <% if (isAdmin) { %>
+                    <th>Participant Name</th>
+                <% } %>
+                <th>Event Title</th>
+                <th>Event Date</th>
+                <th>Status</th>
+                <th>Satisfaction</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (surveys && surveys.length > 0) { %>
+                <% surveys.forEach(r => { %>
+                    <tr>
+                        <td><%= r.registration_id %></td>
+                        
+                        <!-- FIX 2: Display Participant Name only for admin -->
+                        <% if (isAdmin) { %>
+                            <td><%= r.first_name %> <%= r.last_name %></td>
+                        <% } %>
+                        
+                        <!-- FIX 3: Ensure data access uses the correct lowercase aliases from the SQL query -->
+                        <td><%= r.event_title %></td>
+                        <td><%= r.event_date ? new Date(r.event_date).toLocaleDateString() : 'N/A' %></td>
+                        <td><%= r.registration_status %></td>
+                        
+                        <!-- FIX 4: Display Score format (it comes back as survey_satisfaction) -->
+                        <td><%= r.survey_satisfaction ? r.survey_satisfaction + '/5' : 'N/A' %></td>
+                        
+                        <td><%= r.survey_comments || 'No comment provided.' %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="7" style="text-align:center;">No registrations or survey data found.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+  </div>
+</body>
+</html>

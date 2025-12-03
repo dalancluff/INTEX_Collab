@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Our Mission | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito Sans', sans-serif; background: #f5f5f5; color: #3A3F3B; line-height: 1.6; margin: 0; padding: 0; }
+    .navbar { background: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .logo { font-family: 'Montserrat', sans-serif; font-weight: 700; color: #CE325B; text-decoration: none; font-size: 1.5rem; }
+    .btn-cta { background: #CE325B; color: #fff; padding: 0.8rem 1.5rem; border-radius: 999px; text-decoration: none; font-weight: 600; transition: transform 0.2s, background 0.3s; }
+    .btn-cta:hover { background: #F9AFB1; color: #3A3F3B; transform: translateY(-2px); }
+    .container { max-width: 800px; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    h1 { font-family: 'Montserrat', sans-serif; color: #CE325B; margin-bottom: 1rem; }
+    p { margin-bottom: 1rem; font-size: 1.1rem; }
+    .donate-link { display: inline-block; margin-top: 2rem; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="/dashboard" class="logo">Ella Rises</a>
+    <div>
+      <% if (user) { %>
+        <span><%= user.first_name %> <%= user.last_name %></span>
+        <a href="/logout" class="btn-cta" style="margin-left: 1rem;">Logout</a>
+      <% } else { %>
+        <a href="/login" class="btn-cta">Login</a>
+      <% } %>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Support Ella Rises</h1>
+    <p>Every child deserves the opportunity to explore their passions and reach their full potential. Ella Rises is committed to nurturing creativity, innovation, and self-confidence in young participants through meaningful programs in arts and STEM.</p>
+    <p>By donating, you directly empower these students to attend workshops, participate in exciting projects, and gain skills that will shape their future. Your generosity ensures that no child is left behind due to financial constraints.</p>
+    <p>Together, we can continue to create a community where young minds thrive, explore their fields of interest, and achieve remarkable things. Your support truly makes a difference.</p>
+    <a href="https://givebutter.com/EllaRises" target="_blank" class="btn-cta donate-link">Donate Now</a>
+  </div>
+</body>
+</html>

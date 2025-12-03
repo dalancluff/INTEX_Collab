@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit User | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    body { background:#F9F5EA; font-family:'Nunito Sans',sans-serif; color:#3A3F3B; }
+    .container {
+      max-width: 600px; margin: 3rem auto; background:white;
+      padding:2rem; border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,.1);
+    }
+    h1 { color:#CE325B; font-family:'Montserrat',sans-serif; }
+    label { display:block; margin-top:1rem; font-weight:600; }
+    input, select {
+      width:100%; padding:.6rem; border:1px solid #ddd;
+      border-radius:10px; margin-top:.3rem;
+    }
+    button {
+      background:linear-gradient(135deg,#F9AFB1,#CE325B);
+      color:white; font-weight:600; border:none;
+      padding:.7rem 1.2rem; border-radius:999px;
+      margin-top:1.5rem; cursor:pointer;
+      transition:background .3s ease;
+    }
+    button:hover { background:linear-gradient(135deg,#CE325B,#F4B092); }
+    a { text-decoration:none; color:#CE325B; font-weight:600; display:block; margin-top:1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit User</h1>
+    <form method="POST" action="/edit-user/<%= user.user_id %>">
+      <label>First Name</label>
+      <input type="text" name="first_name" value="<%= user.first_name %>" required>
+
+      <label>Last Name</label>
+      <input type="text" name="last_name" value="<%= user.last_name %>" required>
+
+      <label>Username</label>
+      <input type="text" name="username" value="<%= user.username %>" required>
+
+      <label>Email</label>
+      <input type="email" name="email" value="<%= user.email %>" required>
+
+      <label>Password (leave blank to keep current)</label>
+      <input type="password" name="password">
+
+      <label>Role</label>
+      <select name="role" required>
+        <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+        <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Manager</option>
+      </select>
+
+      <label>Active</label>
+      <input type="checkbox" name="is_active" <%= user.is_active ? 'checked' : '' %>>
+
+      <button type="submit">Save Changes</button>
+    </form>
+
+    <a href="/manage-users">← Back to Manage Users</a>
+  </div>
+</body>
+</html>
