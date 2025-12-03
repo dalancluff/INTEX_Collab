@@ -135,13 +135,13 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     // Query user from the database
     const result = await pool.query(
       'SELECT user_id, email, password, role, first_name, last_name, is_active FROM users WHERE username = $1',
-      [username]
+      [email]
     );
 
     if (result.rows.length === 0) {
@@ -177,13 +177,13 @@ app.post('/login', async (req, res) => {
     // Store session data
     req.session.user = {
       id: user.user_id,
-      username: user.email,
+      email: user.email,
       role: user.role,
       first_name: user.first_name,
       last_name: user.last_name,
     };
 
-    console.log('✅ Login successful:', username);
+    console.log('✅ Login successful:', email);
     req.session.save((err) => {
       if (err) console.error('❌ Session save error:', err);
       else console.log('💾 Session saved for:', email);
