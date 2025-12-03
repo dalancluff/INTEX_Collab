@@ -1,0 +1,82 @@
+/* ------------------------------------------------------
+   Ella Rises Theme – Colors & Fonts Base Setup
+   ------------------------------------------------------ */
+
+/*COLOR PALETTE (from site’s CSS variables) */
+:root {
+  /* --- Neutral tones --- */
+  --clr-white: #ffffff;
+  --clr-black: #181818;
+  --clr-gray-light: #e2e2e2;
+  --clr-gray-medium: #c5c5c5;
+  --clr-gray-dark: #525252;
+
+  /* --- Primary brand tones --- */
+  --clr-pink-light: #ffd6e9;   /* soft accent */
+  --clr-pink: #f49bae;         /* main pink accent */
+  --clr-pink-dark: #9f2b43;    /* deep berry */
+  --clr-berry-darkest: #501522;/* darkest supporting shade */
+
+  /* --- Supporting tones --- */
+  --clr-green: #639374;        /* secondary accent (hope, growth) */
+  --clr-orange: #f79e0d;       /* bright accent (warm energy) */
+
+  /* --- Additional neutrals from site --- */
+  --clr-muted: #8c8c8c;
+  --clr-panel: #fff7ef;
+
+  /* --- Text colors --- */
+  --clr-text-primary: var(--clr-black);
+  --clr-text-secondary: var(--clr-gray-dark);
+  --clr-heading: var(--clr-black);
+  --clr-link: var(--clr-green);
+  --clr-link-hover: var(--clr-pink-dark);
+
+  /* --- Backgrounds --- */
+  --clr-bg: var(--clr-white);
+  --clr-bg-secondary: var(--clr-gray-light);
+}
+
+/*FONT SETUP  */
+/* Closest free equivalents: Montserrat (headings) & Nunito Sans (body)
+   Add to <head>:
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+*/
+body {
+  font-family: 'Nunito Sans', Arial, Helvetica, sans-serif;
+  color: var(--clr-text-primary);
+  background-color: var(--clr-bg);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--clr-heading);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* BASE ELEMENTS */
+a {
+  color: var(--clr-link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--clr-link-hover);
+}
+
+/* UTILITY COLORS (optional shortcuts) */
+.bg-pink       { background-color: var(--clr-pink); }
+.bg-pink-light { background-color: var(--clr-pink-light); }
+.bg-pink-dark  { background-color: var(--clr-pink-dark); }
+.bg-green      { background-color: var(--clr-green); }
+.bg-orange     { background-color: var(--clr-orange); }
+
+.text-pink       { color: var(--clr-pink); }
+.text-pink-dark  { color: var(--clr-pink-dark); }
+.text-green      { color: var(--clr-green); }
+.text-orange     { color: var(--clr-orange); }
+.text-muted      { color: var(--clr-muted); }
+

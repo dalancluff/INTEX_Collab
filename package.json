@@ -1,0 +1,25 @@
+{
+  "name": "ella-rises-app",
+  "version": "1.0.0",
+  "description": "Ella Rises application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-flash": "^0.1.1",
+    "connect-pg-simple": "^10.0.0",
+    "csurf": "^1.11.0",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.2.0",
+    "express-session": "^1.18.2",
+    "helmet": "^8.1.0",
+    "knex": "^3.1.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.11",
+    "pg": "^8.16.3"
+  }
+}
