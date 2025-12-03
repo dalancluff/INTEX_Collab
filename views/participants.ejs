@@ -201,6 +201,33 @@
         font-size: 1.9rem;
       }
     }
+
+    /* Filters (copied from Events page) */
+    .filters {
+      max-width: 1000px;
+      margin: 0 auto 1rem;
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .filters form {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .input, .select {
+      padding: .65rem .9rem;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      min-width: 240px;
+    }
+
   </style>
 </head>
 <body>
@@ -222,6 +249,21 @@
       <a href="/add_user" class="btn">+ Add Participant</a>
     <% } %>
   </section>
+
+  <!-- Filters -->
+<div class="filters">
+  <form method="get" action="/participants">
+    <input 
+      class="input" 
+      type="text" 
+      name="search" 
+      placeholder="Search name or email..." 
+      value="<%= (filters && filters.search) || '' %>"
+    >
+    <button class="btn" type="submit">Search</button>
+  </form>
+</div>
+
 
   <div class="table-container">
     <table>
