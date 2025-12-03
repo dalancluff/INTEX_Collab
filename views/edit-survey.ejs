@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Survey | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clr-peach-light: #F9F5EA;
+      --clr-pink-soft: #FFD8D1;
+      --clr-pink: #F9AFB1;
+      --clr-pink-dark: #CE325B;
+      --clr-sage: #9AB59D;
+      --clr-charcoal: #3A3F3B;
+      --clr-white: #ffffff;
+      --clr-gray-light: #f5f5f5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-gray-light);
+      color: var(--clr-charcoal);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: var(--clr-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--clr-pink-dark);
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--clr-charcoal);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #b82850;
+    }
+
+    .btn-secondary {
+      background: var(--clr-sage);
+      margin-left: 1rem;
+    }
+
+    .btn-secondary:hover {
+      background: #87a289;
+    }
+
+    .info-text {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">Ella Rises</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/participants">Participants</a></li>
+      <li><a href="/surveys" style="color: var(--clr-pink-dark);">Surveys</a></li>
+      <li><a href="/donations">Donations</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Edit Survey/Registration</h1>
+    
+    <p class="info-text">
+      Editing registration for: <strong><%= survey.first_name %> <%= survey.last_name %></strong><br>
+      Event: <strong><%= survey.event_title %></strong>
+    </p>
+
+    <form method="POST" action="/edit-survey/<%= survey.registration_id %>">
+      
+      <div class="form-group">
+        <label for="status">Registration Status</label>
+        <select name="status" id="status" required>
+          <option value="registered" <%= survey.status === 'registered' ? 'selected' : '' %>>Registered</option>
+          <option value="attended" <%= survey.status === 'attended' ? 'selected' : '' %>>Attended</option>
+          <option value="cancelled" <%= survey.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+          <option value="no-show" <%= survey.status === 'no-show' ? 'selected' : '' %>>No-Show</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="satisfaction">Satisfaction (1-5)</label>
+        <input 
+          type="number" 
+          name="satisfaction" 
+          id="satisfaction" 
+          min="1" 
+          max="5" 
+          value="<%= survey.survey_satisfaction || '' %>"
+          placeholder="Leave blank if not provided"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="usefulness">Usefulness (1-5)</label>
+        <input 
+          type="number" 
+          name="usefulness" 
+          id="usefulness" 
+          min="1" 
+          max="5" 
+          value="<%= survey.survey_usefulness || '' %>"
+          placeholder="Leave blank if not provided"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="recommendation">Recommendation (1-5)</label>
+        <input 
+          type="number" 
+          name="recommendation" 
+          id="recommendation" 
+          min="1" 
+          max="5" 
+          value="<%= survey.survey_recommendation || '' %>"
+          placeholder="Leave blank if not provided"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="comments">Comments</label>
+        <textarea 
+          name="comments" 
+          id="comments" 
+          placeholder="Optional feedback comments"
+        ><%= survey.survey_comments || '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn">Update Survey</button>
+      <a href="/surveys" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>
