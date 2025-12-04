@@ -78,7 +78,7 @@
 
     /* Styles specific to this page */
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
@@ -114,7 +114,7 @@
     }
     
     .filter-container select {
-      width: 140px;
+      width: 160px;
     }
     
     table {
@@ -127,9 +127,10 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
     th, td {
-      padding: 1rem;
+      padding: 0.8rem;
       text-align: left;
       border-bottom: 1px solid #eee;
+      font-size: 0.9rem;
     }
     th {
       background: var(--clr-pink-soft);
@@ -155,11 +156,14 @@
       font-size: 0.9rem;
     }
     
+    .score-cell {
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
   
-  <!-- FIX: Directly embedding the Navbar -->
+  <!-- Navbar -->
   <nav class="navbar">
     <a href="/" class="logo">Ella Rises</a>
     <ul class="nav-links">
@@ -188,21 +192,21 @@
         value="<%= typeof date !== 'undefined' ? date : '' %>"
       >
       
-      <select name="satisfaction">
-        <option value="">All Satisfaction</option>
-        <option value="1" <%= typeof satisfaction !== 'undefined' && satisfaction === '1' ? 'selected' : '' %>>1/5</option>
-        <option value="2" <%= typeof satisfaction !== 'undefined' && satisfaction === '2' ? 'selected' : '' %>>2/5</option>
-        <option value="3" <%= typeof satisfaction !== 'undefined' && satisfaction === '3' ? 'selected' : '' %>>3/5</option>
-        <option value="4" <%= typeof satisfaction !== 'undefined' && satisfaction === '4' ? 'selected' : '' %>>4/5</option>
-        <option value="5" <%= typeof satisfaction !== 'undefined' && satisfaction === '5' ? 'selected' : '' %>>5/5</option>
-        <option value="N/A" <%= typeof satisfaction !== 'undefined' && satisfaction === 'N/A' ? 'selected' : '' %>>N/A</option>
+      <select name="overall">
+        <option value="">All Overall Scores</option>
+        <option value="0" <%= typeof overall !== 'undefined' && overall === '0' ? 'selected' : '' %>>0/5</option>
+        <option value="1" <%= typeof overall !== 'undefined' && overall === '1' ? 'selected' : '' %>>1/5</option>
+        <option value="2" <%= typeof overall !== 'undefined' && overall === '2' ? 'selected' : '' %>>2/5</option>
+        <option value="3" <%= typeof overall !== 'undefined' && overall === '3' ? 'selected' : '' %>>3/5</option>
+        <option value="4" <%= typeof overall !== 'undefined' && overall === '4' ? 'selected' : '' %>>4/5</option>
+        <option value="5" <%= typeof overall !== 'undefined' && overall === '5' ? 'selected' : '' %>>5/5</option>
+        <option value="N/A" <%= typeof overall !== 'undefined' && overall === 'N/A' ? 'selected' : '' %>>N/A</option>
       </select>
       
       <button type="submit" class="btn">Filter</button>
     </form>
 
     <% 
-        // FIX: Changed check to 'admin' as requested.
         const isAdmin = (user && user.role === 'admin') || (currentUser && currentUser.role === 'admin'); 
     %>
     
@@ -217,15 +221,18 @@
     <table>
         <thead>
             <tr>
-                <th>Registration ID</th>
-                <!-- FIX 1: Display Participant Name column only for admin -->
+                <th>Reg ID</th>
                 <% if (isAdmin) { %>
-                    <th>Participant Name</th>
+                    <th>Participant</th>
                 <% } %>
                 <th>Event Title</th>
                 <th>Event Date</th>
                 <th>Status</th>
                 <th>Satisfaction</th>
+                <th>Usefulness</th>
+                <th>Instructor</th>
+                <th>Recommendation</th>
+                <th>Overall</th>
                 <th>Comments</th>
                 <% if (isAdmin) { %>
                     <th>Actions</th>
@@ -238,22 +245,23 @@
                     <tr>
                         <td><%= r.registration_id %></td>
                         
-                        <!-- FIX 2: Display Participant Name only for admin -->
                         <% if (isAdmin) { %>
                             <td><%= r.first_name %> <%= r.last_name %></td>
                         <% } %>
                         
-                        <!-- FIX 3: Ensure data access uses the correct lowercase aliases from the SQL query -->
                         <td><%= r.event_title %></td>
                         <td><%= r.event_date ? new Date(r.event_date).toLocaleDateString() : 'N/A' %></td>
                         <td><%= r.registration_status %></td>
                         
-                        <!-- FIX 4: Display Score format (it comes back as survey_satisfaction) -->
-                        <td><%= r.survey_satisfaction ? r.survey_satisfaction + '/5' : 'N/A' %></td>
+                        <td class="score-cell"><%= r.survey_satisfaction !== null && r.survey_satisfaction !== undefined ? r.survey_satisfaction + '/5' : 'N/A' %></td>
+                        <td class="score-cell"><%= r.survey_usefulness !== null && r.survey_usefulness !== undefined ? r.survey_usefulness + '/5' : 'N/A' %></td>
+                        <td class="score-cell"><%= r.survey_instructor !== null && r.survey_instructor !== undefined ? r.survey_instructor + '/5' : 'N/A' %></td>
+                        <td class="score-cell"><%= r.survey_recommendation !== null && r.survey_recommendation !== undefined ? r.survey_recommendation + '/5' : 'N/A' %></td>
+                        <td class="score-cell"><%= r.survey_overall !== null && r.survey_overall !== undefined ? r.survey_overall + '/5' : 'N/A' %></td>
                         
                         <td><%= r.survey_comments || 'No comment provided.' %></td>
                         
-                        <% if ((user && user.role === 'admin') || (currentUser && currentUser.role === 'admin')) { %>
+                        <% if (isAdmin) { %>
                             <td>
                                 <div style="display: flex; gap: 0.5rem; align-items: center;">
                                     <a href="/edit-survey/<%= r.registration_id %>" class="btn" style="background: var(--clr-blue-muted); padding: 0.4rem 0.8rem; font-size: 0.8rem;">Edit</a>
@@ -267,7 +275,7 @@
                 <% }) %>
             <% } else { %>
                 <tr>
-                    <td colspan="7" style="text-align:center;">No registrations or survey data found.</td>
+                    <td colspan="<%= isAdmin ? '12' : '10' %>" style="text-align:center;">No registrations or survey data found.</td>
                 </tr>
             <% } %>
         </tbody>
