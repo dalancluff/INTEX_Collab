@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Survey | Ella Rises</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css"> 
+  <style>
+    /* ==================== BRAND COLORS (Ella Rises) ==================== */
+    :root {
+      --clr-peach-light: #F9F5EA;
+      --clr-pink-soft: #FFD8D1;
+      --clr-pink: #F9AFB1;
+      --clr-pink-dark: #CE325B;
+      --clr-sage: #9AB59D;
+      --clr-charcoal: #3A3F3B;
+      --clr-coral: #F4B092;
+      --clr-blue-muted: #99B7C6;
+      --clr-purple: #978EC4;
+      --clr-white: #ffffff;
+      --clr-gray-light: #f5f5f5;
+      --clr-border: #e0e0e0;
+    }
+
+    /* ==================== GLOBAL STYLES ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: var(--clr-gray-light);
+      color: var(--clr-charcoal);
+      min-height: 100vh;
+    }
+    
+    /* ==================== NAVBAR ==================== */
+    .navbar {
+      background: var(--clr-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-pink-dark);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--clr-charcoal);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--clr-pink-dark);
+    }
+
+    /* ==================== CONTAINER ==================== */
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ==================== FORM STYLES ==================== */
+    .styled-form {
+      background: var(--clr-white);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .styled-form label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      color: var(--clr-charcoal);
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .styled-form label:first-of-type {
+      margin-top: 0;
+    }
+
+    .styled-form input[type="number"],
+    .styled-form select,
+    .styled-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--clr-border);
+      border-radius: 8px;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .styled-form input[type="number"]:focus,
+    .styled-form select:focus,
+    .styled-form textarea:focus {
+      outline: none;
+      border-color: var(--clr-pink);
+    }
+
+    .styled-form textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--clr-pink-dark);
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s, background 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: var(--clr-pink);
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .info-box {
+      background: var(--clr-peach-light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--clr-pink-dark);
+    }
+
+    .info-box p {
+      margin: 0.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">Ella Rises</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/participants">Participants</a></li>
+      <li><a href="/surveys" style="color: var(--clr-pink-dark);">Surveys</a></li>
+      <li><a href="/donations">Donations</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Edit Survey</h1>
+
+    <div class="info-box">
+      <p><strong>Current Participant:</strong> <%= survey.first_name %> <%= survey.last_name %> (ID: <%= survey.user_id %>)</p>
+      <p><strong>Current Event:</strong> <%= survey.event_name %></p>
+      <p><strong>Registration ID:</strong> <%= survey.registration_id %></p>
+    </div>
+
+    <form action="/edit-survey/<%= survey.registration_id %>" method="POST" class="styled-form">
+      
+      <label for="user_id">User ID</label>
+      <input type="number" name="user_id" id="user_id" value="<%= survey.user_id %>" required>
+
+      <label for="event_id">Select Event</label>
+      <select name="event_id" id="event_id" required>
+        <% events.forEach(e => { %>
+          <option value="<%= e.event_id %>" <%= e.event_id === survey.event_instance_id ? 'selected' : '' %>>
+            <%= e.title %> - <%= e.event_date ? new Date(e.event_date).toLocaleDateString() : 'Date TBD' %>
+          </option>
+        <% }) %>
+      </select>
+
+      <label for="satisfaction">Satisfaction (0-5)</label>
+      <input type="number" name="satisfaction" id="satisfaction" min="0" max="5" step="1" value="<%= survey.survey_satisfaction || 0 %>" required>
+
+      <label for="usefulness">Usefulness (0-5)</label>
+      <input type="number" name="usefulness" id="usefulness" min="0" max="5" step="1" value="<%= survey.survey_usefulness || 0 %>" required>
+
+      <label for="instructor">Instructor Rating (0-5)</label>
+      <input type="number" name="instructor" id="instructor" min="0" max="5" step="1" value="<%= survey.survey_instructor || 0 %>" required>
+
+      <label for="recommendation">Recommendation (0-5)</label>
+      <input type="number" name="recommendation" id="recommendation" min="0" max="5" step="1" value="<%= survey.survey_recommendation || 0 %>" required>
+
+      <label for="overall">Overall Experience (0-5)</label>
+      <input type="number" name="overall" id="overall" min="0" max="5" step="1" value="<%= survey.survey_overall || 0 %>" required>
+
+      <label for="comments">Comments</label>
+      <textarea name="comments" id="comments" rows="4"><%= survey.survey_comments || '' %></textarea>
+
+      <button type="submit" class="btn">Update Survey</button>
+    </form>
+
+    <a href="/surveys" style="display: block; text-align: center; margin-top: 1rem; color: var(--clr-pink-dark);">← Back to Surveys</a>
+  </div>
+</body>
+</html>
