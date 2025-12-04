@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Submit Survey | Ella Rises</title>
@@ -160,6 +157,21 @@
     .btn:active {
       transform: translateY(0);
     }
+
+    .admin-section {
+      background: var(--clr-peach-light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      border: 2px dashed var(--clr-pink-dark);
+    }
+
+    .admin-section h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--clr-pink-dark);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -178,27 +190,44 @@
     <h1>Submit Post-Event Survey</h1>
 
     <form action="/surveys" method="POST" class="styled-form">
+      
+      <% const isAdmin = user && user.role === 'admin'; %>
+      
+      <% if (isAdmin) { %>
+        <div class="admin-section">
+          <h3>Admin Only - Select Participant</h3>
+          <label for="user_id">User ID</label>
+          <input type="number" name="user_id" id="user_id" placeholder="Enter participant's user ID" required>
+        </div>
+      <% } %>
+
       <label for="event_id">Select Event</label>
       <select name="event_id" id="event_id" required>
+        <option value="">-- Choose an event --</option>
         <% events.forEach(e => { %>
-          <option value="<%= e.event_id %>"><%= e.title %></option>
+          <option value="<%= e.event_id %>">
+            <%= e.title %> - <%= e.event_date ? new Date(e.event_date).toLocaleDateString() : 'Date TBD' %>
+          </option>
         <% }) %>
       </select>
 
-      <label>Satisfaction (1-5)</label>
-      <input type="number" name="satisfaction" min="1" max="5" required>
+      <label for="satisfaction">Satisfaction (0-5)</label>
+      <input type="number" name="satisfaction" id="satisfaction" min="0" max="5" step="1" required>
 
-      <label>Usefulness (1-5)</label>
-      <input type="number" name="usefulness" min="1" max="5" required>
+      <label for="usefulness">Usefulness (0-5)</label>
+      <input type="number" name="usefulness" id="usefulness" min="0" max="5" step="1" required>
 
-      <label>Recommendation (1-10)</label>
-      <input type="number" name="recommendation" min="1" max="10" required>
+      <label for="instructor">Instructor Rating (0-5)</label>
+      <input type="number" name="instructor" id="instructor" min="0" max="5" step="1" required>
 
-      <label>Milestones Achieved</label>
-      <textarea name="milestones" rows="2" placeholder="List any milestones..."></textarea>
+      <label for="recommendation">Recommendation (0-5)</label>
+      <input type="number" name="recommendation" id="recommendation" min="0" max="5" step="1" required>
 
-      <label>Comments</label>
-      <textarea name="comments" rows="3" placeholder="Optional feedback..."></textarea>
+      <label for="overall">Overall Experience (0-5)</label>
+      <input type="number" name="overall" id="overall" min="0" max="5" step="1" required>
+
+      <label for="comments">Comments</label>
+      <textarea name="comments" id="comments" rows="4" placeholder="Optional feedback about your experience..."></textarea>
 
       <button type="submit" class="btn">Submit Survey</button>
     </form>
